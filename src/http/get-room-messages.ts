@@ -18,11 +18,13 @@ export async function getRoomMessages({ roomId }: GetRoomMessagesRequest) {
   const data: GetRoomMessagesResponse[] = await response.json()
 
   return {
-    messages: data.map(item => ({
-      id: item.ID,
-      message: item.Message,
-      reactionCount: item.ReactionCount,
-      answered: item.Answered,
-    })),
+    messages: data
+      .sort((a, b) => (a.ReactionCount < b.ReactionCount ? 1 : -1))
+      .map(item => ({
+        id: item.ID,
+        message: item.Message,
+        reactionCount: item.ReactionCount,
+        answered: item.Answered,
+      })),
   }
 }

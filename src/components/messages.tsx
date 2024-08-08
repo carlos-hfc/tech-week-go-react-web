@@ -11,7 +11,6 @@ export function Messages() {
     throw new Error("Messages components must be used within room page")
   }
 
-  // const { messages } = use(getRoomMessages({ roomId }))
   const { data } = useSuspenseQuery({
     queryFn: () => getRoomMessages({ roomId }),
     queryKey: ["messages", roomId],
@@ -22,6 +21,7 @@ export function Messages() {
       {data?.messages?.map(message => (
         <Message
           key={message.id}
+          id={message.id}
           text={message.message}
           reactionCount={message.reactionCount}
           answered={message.answered}
